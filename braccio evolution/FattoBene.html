@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Controllo Braccio Robotico</title>
+</head>
+<body>
+  <h1>Controllo Servomotori</h1>
+
+  <label>Servo 1: </label>
+  <input type="number" id="angolo1" min="0" max="180"><br>
+
+  <label>Servo 2: </label>
+  <input type="number" id="angolo2" min="0" max="180"><br>
+
+  <button onclick="inviaDati()">Invia</button>
+
+  <script>
+    function inviaDati() {
+      const angolo1 = parseInt(document.getElementById("angolo1").value);
+      const angolo2 = parseInt(document.getElementById("angolo2").value);
+
+      fetch("http://10.0.98.240:5000/move", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ angolo1: angolo1, angolo2: angolo2 })
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Successo:', data);
+      })
+      .catch(error => {
+        console.error("Errore:", error);
+      });
+    }
+  </script>
+</body>
+</html>
